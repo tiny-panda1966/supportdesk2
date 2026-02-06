@@ -140,12 +140,12 @@ function handleContractInfo(contract) {
         var pct = tasksPerMonth > 0 ? Math.min((usedThisMonth / tasksPerMonth) * 100, 100) : 0;
         var fill = document.getElementById('monthlyProgressFill');
         fill.style.width = pct + '%';
-        fill.className = 'monthly-progress-fill';
+        fill.className = 'contract-progress-bar monthly-progress-fill';
         if (pct >= 100) fill.classList.add('danger');
         else if (pct >= 80) fill.classList.add('warning');
         
         // Show/hide monthly bar
-        document.getElementById('contractMonthly').style.display = tasksPerMonth > 0 ? 'flex' : 'none';
+        document.getElementById('contractMonthly').style.display = tasksPerMonth > 0 ? 'block' : 'none';
         
         banner.classList.add('visible');
         
@@ -607,9 +607,15 @@ function renderTicketDetail(ticket) {
     container.style.display = 'block';
     document.getElementById('noTicketSelected').style.display = 'none';
 
-    if (window.innerWidth <= 900) {
+    if (window.innerWidth <= 768) {
         document.getElementById('ticketDetailPanel').classList.add('active');
         document.getElementById('backBtn').style.display = 'inline-flex';
+        // Hide ticket list on mobile when viewing detail
+        var listCol = document.querySelector('.ticket-list-column');
+        if (listCol) listCol.classList.add('hidden-mobile');
+        // Show mobile back button
+        var mobileBack = document.getElementById('mobileBackBtn');
+        if (mobileBack) mobileBack.classList.add('visible');
     }
 
     container.querySelectorAll('.status-btn').forEach(btn => {
@@ -842,6 +848,10 @@ function selectTicket(id) {
         renderTickets();
         renderTicketDetail(ticket);
         
+        // Close mobile sidebar if open
+        document.getElementById('sidebarWrapper').classList.remove('mobile-open');
+        document.getElementById('mobileOverlay').classList.remove('active');
+        
         // Scroll the ticket into view in the list
         setTimeout(() => {
             const ticketElement = document.querySelector('.ticket-item[data-id="' + id + '"]');
@@ -854,6 +864,11 @@ function selectTicket(id) {
 
 function closeDetail() {
     document.getElementById('ticketDetailPanel').classList.remove('active');
+    // Restore ticket list on mobile
+    var listCol = document.querySelector('.ticket-list-column');
+    if (listCol) listCol.classList.remove('hidden-mobile');
+    var mobileBack = document.getElementById('mobileBackBtn');
+    if (mobileBack) mobileBack.classList.remove('visible');
 }
 
 function sendNote(ticketId) {
@@ -1535,11 +1550,15 @@ function initEventListeners() {
         window.parent.postMessage({ action: 'navigateToFeedback' }, '*');
     });
     
-    // Account dropdown
-    document.getElementById('accountBtn').addEventListener('click', (e) => {
+    // Account dropdown - userInfo toggles, accountBtn goes to settings
+    document.getElementById('userInfo').addEventListener('click', (e) => {
         e.stopPropagation();
         var dropdown = document.getElementById('accountDropdown');
         dropdown.classList.toggle('visible');
+    });
+    document.getElementById('accountBtn').addEventListener('click', () => {
+        document.getElementById('accountDropdown').classList.remove('visible');
+        window.parent.postMessage({ action: 'accountSettings' }, '*');
     });
     document.getElementById('logoutBtn').addEventListener('click', () => {
         document.getElementById('accountDropdown').classList.remove('visible');
@@ -1548,6 +1567,29 @@ function initEventListeners() {
     document.addEventListener('click', () => {
         document.getElementById('accountDropdown').classList.remove('visible');
     });
+
+    // Project button
+    document.getElementById('projectBtn').addEventListener('click', () => {
+        window.parent.postMessage({ action: 'projectDashboard' }, '*');
+    });
+
+    // Sidebar collapse/expand
+    document.getElementById('collapseBtn').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('collapsed');
+    });
+
+    // Mobile menu open/close
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+        document.getElementById('sidebarWrapper').classList.add('mobile-open');
+        document.getElementById('mobileOverlay').classList.add('active');
+    });
+    document.getElementById('mobileOverlay').addEventListener('click', () => {
+        document.getElementById('sidebarWrapper').classList.remove('mobile-open');
+        document.getElementById('mobileOverlay').classList.remove('active');
+    });
+
+    // Mobile back button (from detail view)
+    document.getElementById('mobileBackBtn').addEventListener('click', closeDetail);
     document.getElementById('closeRulesPopup').addEventListener('click', closeRulesPopup);
     document.getElementById('rulesPopup').addEventListener('click', function(e) { if (e.target.id === 'rulesPopup') closeRulesPopup(); });
     document.getElementById('taskHistoryBtn').addEventListener('click', openTaskHistoryPopup);
