@@ -519,6 +519,14 @@
       font-size: 15px;
       box-shadow: 0 4px 12px rgba(228, 50, 146, 0.25);
       flex-shrink: 0;
+      overflow: hidden;
+    }
+    
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
     }
     
     .user-info {
@@ -2152,7 +2160,7 @@
     background: rgba(255,255,255,0.5); font-size: 11px; cursor: pointer; transition: all 0.2s;
 }
 .admin-type-btn:hover { background: rgba(228,50,146,0.08); }
-.project-value-section { padding: 12px; background: rgba(59,130,246,0.05); border-radius: 10px; margin-top: 8px; }
+/* project-value-section moved to repo class aliases section below */
 
 /* --- No ticket selected placeholder --- */
 #noTicketSelected svg { fill: #cbd5e1; }
@@ -2196,6 +2204,424 @@
     .priority-option, .impact-option { flex: none; width: calc(50% - 4px); }
 }
 
+/* ================================================================ */
+/* REPO CLASS ALIASES — Map helpdesk.js class names to demo styles  */
+/* The repo JS generates HTML with different class names than the   */
+/* demo. These aliases ensure proper glassmorphism rendering.       */
+/* ================================================================ */
+
+/* --- Panel aliases (repo adds -panel suffix) --- */
+.ticket-list-panel {
+    border-radius: 24px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.ticket-detail-panel {
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* --- Detail content scrollable area (repo: .ticket-detail-content, demo: .detail-scroll) --- */
+.ticket-detail-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+}
+
+/* --- Detail body wrapper (repo generates this) --- */
+.detail-body {
+    padding: 0;
+}
+
+/* --- Detail title (repo: .detail-title, demo: .detail-subject) --- */
+.detail-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 10px 0;
+    line-height: 1.3;
+}
+
+/* --- Detail info grid (repo: .detail-info-grid, demo: .details-grid) --- */
+.detail-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 20px;
+}
+
+.detail-info-item {
+    margin-bottom: 14px;
+    background: rgba(255,255,255,0.4);
+    padding: 12px 16px;
+    border-radius: 12px;
+}
+
+.detail-info-label {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.detail-info-value {
+    font-size: 14px;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+/* --- Ticket type badge (inline badge in ticket list, repo class) --- */
+.ticket-type-badge {
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-left: 8px;
+    display: inline-block;
+}
+
+.ticket-type-badge.type-support { background: rgba(33, 150, 243, 0.15); color: #1976d2; }
+.ticket-type-badge.type-bug { background: rgba(244, 67, 54, 0.15); color: #d32f2f; }
+.ticket-type-badge.type-project { background: rgba(156, 39, 176, 0.15); color: #7b1fa2; }
+.ticket-type-badge.type-referral { background: rgba(0, 150, 136, 0.15); color: #00796b; }
+
+/* --- Ticket locked badge --- */
+.ticket-locked-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+    padding: 4px;
+    background: rgba(148,163,184,0.15);
+    border-radius: 50%;
+}
+.ticket-locked-badge svg { width: 14px; height: 14px; fill: #64748b; }
+
+/* --- Project value display (in ticket list) --- */
+.project-value-display {
+    font-size: 12px;
+    color: #7b1fa2;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+/* --- Project value section (in detail panel) — expanded --- */
+.project-value-section {
+    padding: 16px;
+    background: rgba(156, 39, 176, 0.06);
+    border-radius: 12px;
+    margin-top: 12px;
+    border: 1px solid rgba(156, 39, 176, 0.12);
+}
+.project-value-section h4,
+.project-value-section .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #7b1fa2;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.project-value-section .value-row,
+.project-value-section .project-value-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(156, 39, 176, 0.08);
+    font-size: 14px;
+    color: #1e293b;
+}
+.project-value-section .value-row:last-child,
+.project-value-section .project-value-row:last-child {
+    border-bottom: none;
+}
+.project-value-section .value-label,
+.project-value-section .project-value-label {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 500;
+}
+.project-value-section .value-amount,
+.project-value-section .project-value-amount {
+    font-size: 16px;
+    font-weight: 700;
+    color: #7b1fa2;
+}
+.project-value-section .po-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.project-value-section .po-received { background: rgba(76, 175, 80, 0.15); color: #388e3c; }
+.project-value-section .po-awaiting { background: rgba(255, 152, 0, 0.15); color: #f57c00; }
+.project-value-section input,
+.project-value-section select {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(148,163,184,0.3);
+    background: rgba(255,255,255,0.6);
+    font-size: 14px;
+    font-family: inherit;
+    color: #1e293b;
+    box-sizing: border-box;
+}
+.project-value-section input:focus,
+.project-value-section select:focus {
+    outline: none;
+    border-color: #7b1fa2;
+    box-shadow: 0 0 0 3px rgba(156, 39, 176, 0.1);
+}
+
+/* --- Admin type section (change ticket type) --- */
+.admin-type-section {
+    margin-top: 16px;
+    padding: 16px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 12px;
+    border: 1px solid rgba(148,163,184,0.15);
+}
+.admin-type-section h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.admin-type-selector {
+    display: flex;
+    gap: 8px;
+}
+
+/* --- Notes preview section (at top of detail) --- */
+.notes-preview-section {
+    padding: 16px 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+.notes-preview-section .detail-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* --- Note bubble (WhatsApp-style, repo class) --- */
+.note-bubble {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.note-bubble.sent {
+    background: linear-gradient(135deg, #e43292 0%, #c4287d 100%);
+    color: #fff;
+    border-radius: 18px 18px 4px 18px;
+    margin-left: auto;
+    box-shadow: 0 4px 12px rgba(228, 50, 146, 0.25);
+}
+.note-bubble.received {
+    background: rgba(255, 255, 255, 0.9);
+    color: #1e293b;
+    border-radius: 18px 18px 18px 4px;
+}
+.note-bubble .note-author {
+    font-size: 11px;
+    font-weight: 700;
+    color: #e43292;
+    margin-bottom: 4px;
+}
+.note-bubble.sent .note-author { color: rgba(255,255,255,0.8); }
+.note-bubble .note-text,
+.note-bubble .note-content {
+    font-size: 13px;
+    line-height: 1.5;
+}
+.note-bubble .note-time,
+.note-bubble .note-date {
+    font-size: 10px;
+    opacity: 0.7;
+    text-align: right;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+/* --- Chat bubbles (repo chat class vs demo message class) --- */
+.chat-bubble {
+    max-width: 85%;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.chat-bubble.sent {
+    background: linear-gradient(135deg, #e43292 0%, #c4287d 100%);
+    color: #fff;
+    border-radius: 18px 18px 4px 18px;
+    margin-left: auto;
+    box-shadow: 0 4px 12px rgba(228, 50, 146, 0.25);
+}
+.chat-bubble.received {
+    background: rgba(255, 255, 255, 0.9);
+    color: #1e293b;
+    border-radius: 18px 18px 18px 4px;
+}
+.chat-bubble .chat-bubble-author,
+.chat-bubble .message-author {
+    font-size: 11px;
+    font-weight: 700;
+    color: #e43292;
+    margin-bottom: 4px;
+}
+.chat-bubble.sent .chat-bubble-author,
+.chat-bubble.sent .message-author { color: rgba(255,255,255,0.8); }
+.chat-bubble .chat-bubble-text,
+.chat-bubble .message-content {
+    font-size: 13px;
+    line-height: 1.5;
+}
+.chat-bubble .chat-bubble-time,
+.chat-bubble .message-time {
+    font-size: 10px;
+    opacity: 0.7;
+    text-align: right;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+/* --- Ticket notes button (in ticket list item) --- */
+.ticket-notes-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: #94a3b8;
+    position: relative;
+}
+.ticket-notes-btn:hover { color: #e43292; }
+.notes-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    min-width: 14px;
+    height: 14px;
+    border-radius: 7px;
+    background: #e43292;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+}
+
+/* --- Status button variants (repo generates more states) --- */
+.status-btn.awaiting,
+.status-update-btn.awaiting { }
+.status-btn.closed,
+.status-update-btn.closed { }
+
+/* --- User avatar in header center --- */
+.header-user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(228, 50, 146, 0.3);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.header-user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.header-user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* --- Global typography reinforcement (for Wix iframe) --- */
+.app, .app * {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+}
+
+.ticket-list div,
+.ticket-list span,
+.ticket-list p,
+.ticket-detail div,
+.ticket-detail span,
+.ticket-detail p,
+.ticket-detail h1,
+.ticket-detail h2,
+.ticket-detail h3,
+.ticket-detail h4,
+.ticket-list-panel div,
+.ticket-list-panel span,
+.ticket-list-panel p,
+.ticket-detail-panel div,
+.ticket-detail-panel span,
+.ticket-detail-panel p,
+.ticket-detail-panel h1,
+.ticket-detail-panel h2,
+.ticket-detail-panel h3,
+.ticket-detail-panel h4 {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+}
+
+/* Ensure detail panel text renders properly */
+#ticketDetailPanel .detail-section,
+#ticketDetailPanel .detail-header,
+#ticketDetailContent .detail-section,
+#ticketDetailContent .detail-header,
+#ticketDetailContent .detail-body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    color: #1e293b;
+}
+
+#ticketDetailContent .detail-description,
+#ticketDetailPanel .detail-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1e293b;
+    white-space: pre-wrap;
+    background: rgba(255,255,255,0.4);
+    padding: 16px;
+    border-radius: 12px;
+}
+
+/* --- Sidebar user-only section wrapper --- */
+.sidebar-user-section {
+    /* This wrapper allows JS to hide all user-only elements at once */
+}
+
+/* --- Mobile: repo panel aliases --- */
+@media (max-width: 768px) {
+    .ticket-list-panel { border-radius: 20px; }
+    .ticket-detail-panel { border-radius: 20px; }
+    .ticket-list-panel.hidden-mobile { display: none; }
+    .ticket-detail-panel.active-mobile { display: flex; }
+    .detail-info-grid { grid-template-columns: 1fr; }
+    .note-bubble { max-width: 90%; }
+    .chat-bubble { max-width: 90%; }
+}
+
     </style>
 </head>
 <body>
@@ -2229,6 +2655,8 @@
             </div>
           </div>
           
+          <!-- User-only section (hidden for admin) -->
+          <div class="sidebar-user-section" id="sidebarUserSection">
           <!-- Contract Card -->
           <div class="contract-card" id="contractBanner">
             <div class="contract-title" id="contractName">-</div>
@@ -2252,7 +2680,11 @@
             </div>
           </div>
           
-          <!-- Ticket Types -->
+          </div>
+          </div>
+          <!-- End user-only section -->
+          
+          <!-- Ticket Types (visible to both admin and user) -->
           <div class="section-label">Ticket Types</div>
           <div class="type-tabs" id="ticketTypeTabs">
             <button class="type-tab active" data-type="all">
@@ -2313,7 +2745,8 @@
             </button>
           </div>
           
-          <!-- Quick Actions -->
+          <!-- Quick Actions (user-only actions hidden for admin) -->
+          <div class="sidebar-user-section" id="sidebarQuickActionsUser">
           <div class="section-label">Quick Actions</div>
           <div class="quick-actions">
             <button class="action-btn" id="rulesBtn">
@@ -2337,6 +2770,11 @@
               </svg>
               <span class="action-btn-label">Feedback</span>
             </button>
+          </div>
+          </div>
+
+          <!-- Notification button (visible for both admin and user) -->
+          <div class="quick-actions" style="margin-top: 4px;">
             <button class="action-btn" id="notificationBtn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
@@ -2382,8 +2820,12 @@
           </button>
           <h1 class="header-title">Tickets</h1>
         </div>
-        <div class="header-center" id="headerCenter" style="display: none;">
-          <div class="company-branding">
+        <div class="header-center" id="headerCenter">
+          <div class="header-user-info" id="headerUserInfo" style="display:none;">
+            <img class="header-user-avatar" id="headerUserAvatar" src="" alt="" style="display:none;">
+            <span class="header-user-name" id="headerUserName"></span>
+          </div>
+          <div class="company-branding" id="companyBranding" style="display:none;">
             <div class="company-name" id="companyName"></div>
             <img class="company-logo" id="companyLogo" src="" alt="" style="display:none;">
           </div>
