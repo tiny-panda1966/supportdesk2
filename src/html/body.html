@@ -28,6 +28,8 @@
             </div>
           </div>
           
+          <!-- User-only section (hidden for admin) -->
+          <div class="sidebar-user-section" id="sidebarUserSection">
           <!-- Contract Card -->
           <div class="contract-card" id="contractBanner">
             <div class="contract-title" id="contractName">-</div>
@@ -51,7 +53,11 @@
             </div>
           </div>
           
-          <!-- Ticket Types -->
+          </div>
+          </div>
+          <!-- End user-only section -->
+          
+          <!-- Ticket Types (visible to both admin and user) -->
           <div class="section-label">Ticket Types</div>
           <div class="type-tabs" id="ticketTypeTabs">
             <button class="type-tab active" data-type="all">
@@ -112,7 +118,8 @@
             </button>
           </div>
           
-          <!-- Quick Actions -->
+          <!-- Quick Actions (user-only actions hidden for admin) -->
+          <div class="sidebar-user-section" id="sidebarQuickActionsUser">
           <div class="section-label">Quick Actions</div>
           <div class="quick-actions">
             <button class="action-btn" id="rulesBtn">
@@ -136,6 +143,11 @@
               </svg>
               <span class="action-btn-label">Feedback</span>
             </button>
+          </div>
+          </div>
+
+          <!-- Notification button (visible for both admin and user) -->
+          <div class="quick-actions" style="margin-top: 4px;">
             <button class="action-btn" id="notificationBtn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
@@ -181,8 +193,12 @@
           </button>
           <h1 class="header-title">Tickets</h1>
         </div>
-        <div class="header-center" id="headerCenter" style="display: none;">
-          <div class="company-branding">
+        <div class="header-center" id="headerCenter">
+          <div class="header-user-info" id="headerUserInfo" style="display:none;">
+            <img class="header-user-avatar" id="headerUserAvatar" src="" alt="" style="display:none;">
+            <span class="header-user-name" id="headerUserName"></span>
+          </div>
+          <div class="company-branding" id="companyBranding" style="display:none;">
             <div class="company-name" id="companyName"></div>
             <img class="company-logo" id="companyLogo" src="" alt="" style="display:none;">
           </div>
