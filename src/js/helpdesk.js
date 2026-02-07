@@ -75,6 +75,7 @@ window.addEventListener('message', (event) => {
         case 'realtimeStatusUpdated': handleRealtimeStatusUpdated(data); break;
         case 'realtimeTicketCreated': handleRealtimeTicketCreated(data); break;
         case 'realtimeTicketDeleted': handleRealtimeTicketDeleted(data); break;
+        case 'realtimeInternalNotesUpdated': handleRealtimeInternalNotesUpdated(data); break;
     }
 });
 
@@ -108,6 +109,10 @@ function handleSetUser(data) {
     if (data.isAdmin) {
         document.getElementById('userFilter').style.display = 'block';
         document.getElementById('companyFilter').style.display = 'block';
+        // Grey out sidebar buttons not needed for admin
+        document.getElementById('rulesBtn').classList.add('admin-disabled');
+        document.getElementById('taskHistoryBtn').classList.add('admin-disabled');
+        document.getElementById('feedbackBtn').classList.add('admin-disabled');
     }
 }
 
@@ -234,6 +239,7 @@ function handleFileUploaded(data) {
 function handleTicketTypeUpdated(data) {
     const ticket = state.tickets.find(t => t._id === data.ticketId);
     if (ticket) {
+        var previousType = ticket.ticketType || 'support';
         ticket.ticketType = data.ticketType;
         renderTickets();
         updateTypeCounts();
@@ -242,7 +248,15 @@ function handleTicketTypeUpdated(data) {
             renderTicketDetail(ticket);
         }
     }
-    showToast('Ticket type updated', 'success');
+    // If backend returned updated contract info, refresh it
+    if (data.contract) {
+        handleContractInfo(data.contract);
+    }
+    var msg = 'Ticket type changed to ' + (data.ticketType.charAt(0).toUpperCase() + data.ticketType.slice(1));
+    if (data.taskAdjustment) {
+        msg += ' (' + (data.taskAdjustment > 0 ? '+' : '') + data.taskAdjustment + ' task' + (Math.abs(data.taskAdjustment) !== 1 ? 's' : '') + ')';
+    }
+    showToast(msg, 'success');
 }
 
 function handleProjectValueUpdated(data) {
@@ -334,6 +348,20 @@ function handleRealtimeTicketCreated(data) {
 
 function handleRealtimeTicketDeleted(data) {
     handleTicketDeleted(data);
+}
+
+function handleRealtimeInternalNotesUpdated(data) {
+    const ticket = state.tickets.find(t => t._id === data.ticketId);
+    if (ticket) {
+        ticket.internalNotes = data.internalNotes;
+        if (state.selectedTicket && state.selectedTicket._id === data.ticketId) {
+            state.selectedTicket = ticket;
+            const notesList = document.getElementById('statusNotesList');
+            if (notesList) {
+                notesList.innerHTML = renderStatusNotes(data.internalNotes, state.isAdmin);
+            }
+        }
+    }
 }
 
 // ==========================================
@@ -893,7 +921,15 @@ function deleteTicket(ticketId) {
 }
 
 function changeTicketType(ticketId, newType) {
-    window.parent.postMessage({ action: 'updateTicketType', ticketId: ticketId, ticketType: newType }, '*');
+    var ticket = state.tickets.find(t => t._id === ticketId);
+    var previousType = ticket ? (ticket.ticketType || 'support') : 'support';
+    if (previousType === newType) return;
+    window.parent.postMessage({ 
+        action: 'updateTicketType', 
+        ticketId: ticketId, 
+        ticketType: newType,
+        previousType: previousType
+    }, '*');
 }
 
 function saveProjectValue(ticketId) {
