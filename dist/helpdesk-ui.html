@@ -168,7 +168,10 @@ body {
     overflow-y: auto;
     overflow-x: visible;
     margin-bottom: 14px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
+.sidebar-content::-webkit-scrollbar { display: none; }
 .sidebar.collapsed .sidebar-content { margin-bottom: 0; overflow: visible; scrollbar-width: none; }
 .sidebar.collapsed .sidebar-content::-webkit-scrollbar { display: none; }
 
@@ -215,17 +218,16 @@ body {
 .logo-subtitle { font-size: 12px; color: var(--text-muted); font-weight: 500; }
 
 /* ========================================
-   COMPANY BRANDING CARD (sidebar)
+   COMPANY BRANDING (header center)
    ======================================== */
-.company-branding-card {
-    text-align: center; padding: 12px; margin-bottom: 16px;
-    border-radius: 14px;
+.header-branding {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 16px; border-radius: 12px;
     background: rgba(255, 255, 255, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
-.sidebar.collapsed .company-branding-card { display: none !important; }
-.company-logo { max-height: 40px; max-width: 120px; object-fit: contain; display: block; margin: 0 auto 6px; }
-.company-name { font-size: 14px; font-weight: 600; color: var(--accent); }
+.company-logo { max-height: 32px; max-width: 100px; object-fit: contain; }
+.company-name { font-size: 14px; font-weight: 600; color: var(--accent); white-space: nowrap; }
 
 /* ========================================
    CONTRACT CARD
@@ -593,7 +595,8 @@ body {
 /* ========================================
    TICKET LIST
    ======================================== */
-.ticket-list { border-radius: 24px; overflow-y: auto; overflow-x: hidden; flex: 1; min-height: 0; }
+.ticket-list { border-radius: 24px; overflow-y: auto; overflow-x: hidden; flex: 1; min-height: 0; scrollbar-width: none; -ms-overflow-style: none; }
+.ticket-list::-webkit-scrollbar { display: none; }
 
 .ticket-item {
     padding: 18px 22px;
@@ -911,26 +914,28 @@ body {
 .referral-fields-group { margin-top: 16px; }
 
 /* ========================================
-   NOTIFICATION POPUP
+   NOTIFICATION POPUP (modal overlay)
    ======================================== */
-.notification-popup {
-    position: absolute; bottom: 100%; left: 0; right: 0; width: 320px;
-    max-height: 400px; background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-    z-index: 1000; display: none; flex-direction: column;
-    margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.3);
+.notification-popup-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    display: none; align-items: flex-start; justify-content: center;
+    z-index: 1000; padding: 40px 20px;
 }
-.notification-popup.active { display: flex; }
-.notification-popup-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid rgba(0,0,0,0.06); border-radius: 16px 16px 0 0; }
-.notification-popup-header h3 { font-size: 16px; font-weight: 600; margin: 0; color: var(--text-primary); }
+.notification-popup-overlay.active { display: flex; }
+.notification-popup-content {
+    background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border-radius: 20px; width: 100%; max-width: 480px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    max-height: 80vh; display: flex; flex-direction: column;
+}
+.notification-popup-content .modal-header { display: flex; justify-content: space-between; align-items: center; }
 .notification-popup-actions { display: flex; align-items: center; gap: 8px; }
 .notification-clear-btn { padding: 6px 12px; background: transparent; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; font-size: 12px; cursor: pointer; color: var(--text-secondary); font-family: inherit; }
 .notification-clear-btn:hover { background: rgba(0,0,0,0.04); }
-.notification-close-btn { width: 28px; height: 28px; border: none; background: transparent; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-.notification-close-btn:hover { background: rgba(0,0,0,0.04); }
-.notification-close-btn svg { width: 18px; height: 18px; fill: var(--grey-600); stroke: var(--grey-600); }
-.notification-list { overflow-y: auto; max-height: 340px; }
+.notification-list { overflow-y: auto; max-height: 60vh; scrollbar-width: none; -ms-overflow-style: none; }
+.notification-list::-webkit-scrollbar { display: none; }
 .notification-item { padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.04); cursor: pointer; transition: background 0.2s; }
 .notification-item:hover { background: rgba(228, 50, 146, 0.06); }
 .notification-item:last-child { border-bottom: none; }
@@ -1103,6 +1108,7 @@ body {
     .header-title { font-size: 20px; }
     .header-actions { gap: 8px; }
     .search-box { display: none; }
+    .header-branding { display: none !important; }
     .header-btn-label { display: none; }
     .header-btn-group { gap: 0; }
     .header-btn { width: 40px; height: 40px; border-radius: 12px; }
@@ -1135,9 +1141,6 @@ body {
     .detail-section { padding: 14px 16px; }
     .detail-info-grid { grid-template-columns: 1fr; }
     .category-grid { grid-template-columns: 1fr 1fr; }
-    .notification-wrapper.mobile-open { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1099; display: flex; align-items: flex-start; justify-content: center; padding: 20px; }
-    .notification-wrapper.mobile-open .notification-btn { display: none; }
-    .notification-wrapper.mobile-open .notification-popup { position: relative !important; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important; transform: none; width: 100%; max-width: 380px; max-height: 85vh; margin: 0; }
     .modal { margin: 20px; max-width: calc(100% - 40px); border-radius: 20px; }
     .modal-header { padding: 18px 20px; }
     .modal-title { font-size: 16px; }
@@ -1188,12 +1191,6 @@ body {
                             <div class="logo-title">Project Support Desk</div>
                             <div class="logo-subtitle">Tiny Panda</div>
                         </div>
-                    </div>
-
-                    <!-- Company Branding (shown when profile has company) -->
-                    <div class="company-branding-card" id="headerCenter" style="display: none;">
-                        <img class="company-logo" id="companyLogo" src="" alt="Company Logo" style="display: none;">
-                        <div class="company-name" id="companyName"></div>
                     </div>
 
                     <!-- Contract Card -->
@@ -1304,24 +1301,6 @@ body {
                                 <span class="action-btn-label">Notifications</span>
                                 <span class="action-badge hidden" id="notificationBadge">0</span>
                             </button>
-                            <!-- Notification Popup -->
-                            <div class="notification-popup" id="notificationPopup">
-                                <div class="notification-popup-header">
-                                    <h3>Notifications</h3>
-                                    <div class="notification-popup-actions">
-                                        <button class="notification-clear-btn" id="clearAllNotifications">Clear All</button>
-                                        <button class="notification-close-btn" id="closeNotificationPopup">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="notification-list" id="notificationList">
-                                    <div class="notification-empty">No new notifications</div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1331,7 +1310,6 @@ body {
                     <div class="user-avatar" id="userAvatar">?</div>
                     <div class="user-info-text">
                         <div class="user-name" id="userName">Loading...</div>
-                        <div class="user-role" id="userEmail"></div>
                     </div>
                     <span class="user-dropdown">▼</span>
                 </div>
@@ -1379,6 +1357,11 @@ body {
                     </button>
                     <h1 class="header-title">Tickets</h1>
                     <span class="live-indicator" id="liveIndicator" style="display: none;">Live</span>
+                </div>
+                <!-- Company Branding (shown when profile has company) -->
+                <div class="header-branding" id="headerCenter" style="display: none;">
+                    <img class="company-logo" id="companyLogo" src="" alt="Company Logo" style="display: none;">
+                    <div class="company-name" id="companyName"></div>
                 </div>
                 <div class="header-actions">
                     <div class="search-box">
@@ -1542,9 +1525,6 @@ body {
                 <div class="main-grid">
                     <!-- Ticket List Column -->
                     <div class="ticket-list-column">
-                        <div class="ticket-list-header">
-                            <h2 class="panel-title" id="ticketPanelTitle">Your Tickets</h2>
-                        </div>
                         <div class="ticket-list glass-card" id="ticketList">
                         <div class="empty-state">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1783,6 +1763,35 @@ body {
         </div>
     </div>
 
+    <!-- Notification Popup (modal overlay) -->
+    <div class="modal-overlay notification-popup-overlay" id="notificationPopup">
+        <div class="modal glass-card notification-popup-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                    </svg>
+                    <span>Notifications</span>
+                </h3>
+                <div class="notification-popup-actions">
+                    <button class="notification-clear-btn" id="clearAllNotifications">Clear All</button>
+                    <button class="modal-close" id="closeNotificationPopup">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="notification-list" id="notificationList">
+                    <div class="notification-empty">No new notifications</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Rules Popup -->
     <div class="modal-overlay rules-popup-overlay" id="rulesPopup">
         <div class="modal glass-card rules-popup-content">
@@ -1935,13 +1944,12 @@ function handleSetUser(data) {
 
     document.getElementById('loadingOverlay').classList.add('hidden');
     document.getElementById('userName').textContent = data.user.name || data.user.email;
-    document.getElementById('userEmail').textContent = data.user.email;
     document.getElementById('userAvatar').textContent = (data.user.name || data.user.email).charAt(0).toUpperCase();
     document.getElementById('accountUserName').textContent = data.user.name || data.user.email;
 
     if (data.profile && data.profile.companyName) {
         document.getElementById('companyName').textContent = data.profile.companyName;
-        document.getElementById('headerCenter').style.display = 'block';
+        document.getElementById('headerCenter').style.display = 'flex';
         if (data.profile.image) {
             document.getElementById('companyLogo').src = data.profile.image;
             document.getElementById('companyLogo').style.display = 'block';
@@ -1955,7 +1963,6 @@ function handleSetUser(data) {
     if (data.isAdmin) {
         document.getElementById('userFilter').style.display = 'block';
         document.getElementById('companyFilter').style.display = 'block';
-        document.getElementById('ticketPanelTitle').textContent = 'All Tickets';
     }
 }
 
@@ -2069,7 +2076,7 @@ function handleProfileSaved(data) {
     document.getElementById('profileSetupBanner').style.display = 'none';
     if (data.profile.companyName) {
         document.getElementById('companyName').textContent = data.profile.companyName;
-        document.getElementById('headerCenter').style.display = 'block';
+        document.getElementById('headerCenter').style.display = 'flex';
     }
     showToast('Profile saved!', 'success');
 }
@@ -2240,15 +2247,11 @@ function toggleNotificationPopup(e) {
     e.preventDefault();
     e.stopPropagation();
     const popup = document.getElementById('notificationPopup');
-    const wrapper = popup.parentElement;
     popup.classList.toggle('active');
-    wrapper.classList.toggle('mobile-open', popup.classList.contains('active'));
-    console.log('Notification popup toggled:', popup.classList.contains('active'));
 }
 
 function closeNotificationPopup() {
     document.getElementById('notificationPopup').classList.remove('active');
-    document.querySelector('.notification-wrapper').classList.remove('mobile-open');
 }
 
 function renderNotificationPopup() {
@@ -3442,16 +3445,11 @@ function initEventListeners() {
     document.getElementById('closeTaskHistoryPopup').addEventListener('click', closeTaskHistoryPopup);
     document.getElementById('taskHistoryPopup').addEventListener('click', function(e) { if (e.target.id === 'taskHistoryPopup') closeTaskHistoryPopup(); });
     
-    // Notification popup
+    // Notification popup (modal overlay)
     document.getElementById('notificationBtn').addEventListener('click', toggleNotificationPopup);
     document.getElementById('closeNotificationPopup').addEventListener('click', closeNotificationPopup);
     document.getElementById('clearAllNotifications').addEventListener('click', clearAllNotifications);
-    // Close notification popup when clicking outside (for mobile backdrop)
-    document.querySelector('.notification-wrapper').addEventListener('click', function(e) {
-        if (e.target === this && this.classList.contains('mobile-open')) {
-            closeNotificationPopup();
-        }
-    });
+    document.getElementById('notificationPopup').addEventListener('click', function(e) { if (e.target.id === 'notificationPopup') closeNotificationPopup(); });
 
     document.getElementById('saveProfileBtn').addEventListener('click', () => {
         const name = document.getElementById('profileNameInput').value.trim();
