@@ -21,12 +21,6 @@
                         </div>
                     </div>
 
-                    <!-- Company Branding (shown when profile has company) -->
-                    <div class="company-branding-card" id="headerCenter" style="display: none;">
-                        <img class="company-logo" id="companyLogo" src="" alt="Company Logo" style="display: none;">
-                        <div class="company-name" id="companyName"></div>
-                    </div>
-
                     <!-- Contract Card -->
                     <div class="contract-card" id="contractBanner">
                         <div class="contract-title" id="contractName">-</div>
@@ -135,24 +129,6 @@
                                 <span class="action-btn-label">Notifications</span>
                                 <span class="action-badge hidden" id="notificationBadge">0</span>
                             </button>
-                            <!-- Notification Popup -->
-                            <div class="notification-popup" id="notificationPopup">
-                                <div class="notification-popup-header">
-                                    <h3>Notifications</h3>
-                                    <div class="notification-popup-actions">
-                                        <button class="notification-clear-btn" id="clearAllNotifications">Clear All</button>
-                                        <button class="notification-close-btn" id="closeNotificationPopup">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="notification-list" id="notificationList">
-                                    <div class="notification-empty">No new notifications</div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -162,7 +138,6 @@
                     <div class="user-avatar" id="userAvatar">?</div>
                     <div class="user-info-text">
                         <div class="user-name" id="userName">Loading...</div>
-                        <div class="user-role" id="userEmail"></div>
                     </div>
                     <span class="user-dropdown">▼</span>
                 </div>
@@ -210,6 +185,11 @@
                     </button>
                     <h1 class="header-title">Tickets</h1>
                     <span class="live-indicator" id="liveIndicator" style="display: none;">Live</span>
+                </div>
+                <!-- Company Branding (shown when profile has company) -->
+                <div class="header-branding" id="headerCenter" style="display: none;">
+                    <img class="company-logo" id="companyLogo" src="" alt="Company Logo" style="display: none;">
+                    <div class="company-name" id="companyName"></div>
                 </div>
                 <div class="header-actions">
                     <div class="search-box">
@@ -373,9 +353,6 @@
                 <div class="main-grid">
                     <!-- Ticket List Column -->
                     <div class="ticket-list-column">
-                        <div class="ticket-list-header">
-                            <h2 class="panel-title" id="ticketPanelTitle">Your Tickets</h2>
-                        </div>
                         <div class="ticket-list glass-card" id="ticketList">
                         <div class="empty-state">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -610,6 +587,35 @@
                     <span class="btn-text">Create Ticket</span>
                     <span class="btn-loader" style="display: none;"></span>
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Popup (modal overlay) -->
+    <div class="modal-overlay notification-popup-overlay" id="notificationPopup">
+        <div class="modal glass-card notification-popup-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                    </svg>
+                    <span>Notifications</span>
+                </h3>
+                <div class="notification-popup-actions">
+                    <button class="notification-clear-btn" id="clearAllNotifications">Clear All</button>
+                    <button class="modal-close" id="closeNotificationPopup">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="notification-list" id="notificationList">
+                    <div class="notification-empty">No new notifications</div>
+                </div>
             </div>
         </div>
     </div>
