@@ -89,13 +89,12 @@ function handleSetUser(data) {
 
     document.getElementById('loadingOverlay').classList.add('hidden');
     document.getElementById('userName').textContent = data.user.name || data.user.email;
-    document.getElementById('userEmail').textContent = data.user.email;
     document.getElementById('userAvatar').textContent = (data.user.name || data.user.email).charAt(0).toUpperCase();
     document.getElementById('accountUserName').textContent = data.user.name || data.user.email;
 
     if (data.profile && data.profile.companyName) {
         document.getElementById('companyName').textContent = data.profile.companyName;
-        document.getElementById('headerCenter').style.display = 'block';
+        document.getElementById('headerCenter').style.display = 'flex';
         if (data.profile.image) {
             document.getElementById('companyLogo').src = data.profile.image;
             document.getElementById('companyLogo').style.display = 'block';
@@ -109,7 +108,6 @@ function handleSetUser(data) {
     if (data.isAdmin) {
         document.getElementById('userFilter').style.display = 'block';
         document.getElementById('companyFilter').style.display = 'block';
-        document.getElementById('ticketPanelTitle').textContent = 'All Tickets';
     }
 }
 
@@ -223,7 +221,7 @@ function handleProfileSaved(data) {
     document.getElementById('profileSetupBanner').style.display = 'none';
     if (data.profile.companyName) {
         document.getElementById('companyName').textContent = data.profile.companyName;
-        document.getElementById('headerCenter').style.display = 'block';
+        document.getElementById('headerCenter').style.display = 'flex';
     }
     showToast('Profile saved!', 'success');
 }
@@ -394,15 +392,11 @@ function toggleNotificationPopup(e) {
     e.preventDefault();
     e.stopPropagation();
     const popup = document.getElementById('notificationPopup');
-    const wrapper = popup.parentElement;
     popup.classList.toggle('active');
-    wrapper.classList.toggle('mobile-open', popup.classList.contains('active'));
-    console.log('Notification popup toggled:', popup.classList.contains('active'));
 }
 
 function closeNotificationPopup() {
     document.getElementById('notificationPopup').classList.remove('active');
-    document.querySelector('.notification-wrapper').classList.remove('mobile-open');
 }
 
 function renderNotificationPopup() {
@@ -1596,16 +1590,11 @@ function initEventListeners() {
     document.getElementById('closeTaskHistoryPopup').addEventListener('click', closeTaskHistoryPopup);
     document.getElementById('taskHistoryPopup').addEventListener('click', function(e) { if (e.target.id === 'taskHistoryPopup') closeTaskHistoryPopup(); });
     
-    // Notification popup
+    // Notification popup (modal overlay)
     document.getElementById('notificationBtn').addEventListener('click', toggleNotificationPopup);
     document.getElementById('closeNotificationPopup').addEventListener('click', closeNotificationPopup);
     document.getElementById('clearAllNotifications').addEventListener('click', clearAllNotifications);
-    // Close notification popup when clicking outside (for mobile backdrop)
-    document.querySelector('.notification-wrapper').addEventListener('click', function(e) {
-        if (e.target === this && this.classList.contains('mobile-open')) {
-            closeNotificationPopup();
-        }
-    });
+    document.getElementById('notificationPopup').addEventListener('click', function(e) { if (e.target.id === 'notificationPopup') closeNotificationPopup(); });
 
     document.getElementById('saveProfileBtn').addEventListener('click', () => {
         const name = document.getElementById('profileNameInput').value.trim();
