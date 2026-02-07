@@ -2096,7 +2096,6 @@ function handleFileUploaded(data) {
 function handleTicketTypeUpdated(data) {
     const ticket = state.tickets.find(t => t._id === data.ticketId);
     if (ticket) {
-        var previousType = ticket.ticketType || 'support';
         ticket.ticketType = data.ticketType;
         renderTickets();
         updateTypeCounts();
@@ -2105,13 +2104,9 @@ function handleTicketTypeUpdated(data) {
             renderTicketDetail(ticket);
         }
     }
-    // If backend returned updated contract info, refresh it
-    if (data.contract) {
-        handleContractInfo(data.contract);
-    }
     var msg = 'Ticket type changed to ' + (data.ticketType.charAt(0).toUpperCase() + data.ticketType.slice(1));
-    if (data.taskAdjustment) {
-        msg += ' (' + (data.taskAdjustment > 0 ? '+' : '') + data.taskAdjustment + ' task' + (Math.abs(data.taskAdjustment) !== 1 ? 's' : '') + ')';
+    if (data.taskDelta) {
+        msg += ' (' + (data.taskDelta > 0 ? '+' : '') + data.taskDelta + ' task' + (Math.abs(data.taskDelta) !== 1 ? 's' : '') + ')';
     }
     showToast(msg, 'success');
 }
